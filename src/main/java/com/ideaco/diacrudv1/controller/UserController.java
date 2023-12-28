@@ -51,4 +51,13 @@ public class UserController {
             return "Error: User not found";
         }
     }
+
+    @PostMapping("/register")
+    public String register(@RequestBody UserModel user) {
+        if (userService.isUsernameTaken(user.getUserName())) {
+            return "Username is Already Taken";
+        }
+        userService.saveUser(user);
+        return "Succesfull Register";
+    }
 }

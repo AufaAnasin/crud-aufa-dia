@@ -27,4 +27,12 @@ public class UserService {
     public List<UserModel> getByUserName(String userName) {
         return userRepository.findByUserName(userName);
     }
+
+    public boolean isUsernameTaken(String userName) {
+        return !getByUserName(userName).isEmpty();
+    }
+
+    public void saveUser(UserModel user) {
+        userRepository.save(user);
+    }
 }
