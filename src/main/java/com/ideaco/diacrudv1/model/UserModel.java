@@ -30,4 +30,8 @@ public class UserModel {
     private String userAddress;
     @Column(name = "user_resume")
     private String userResume;
+
+    public String getPassword() {
+        return userPassword;
+    }
 }

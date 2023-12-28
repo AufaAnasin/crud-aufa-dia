@@ -19,4 +19,7 @@ public interface UserRepository extends JpaRepository<UserModel, Integer> {
     Optional<UserModel> findByJPQLUser(int userId);
     // optional kayak bisa pake custom function yang mana saja, value nya tetep yang keluar hasil query yang diatas
     Optional<UserModel> findByUserId(int userId);
+
+    // untuk login
+    List<UserModel> findByUserName(String userName);
 }

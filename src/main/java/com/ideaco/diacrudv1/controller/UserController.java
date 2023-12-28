@@ -3,12 +3,10 @@ package com.ideaco.diacrudv1.controller;
 import com.ideaco.diacrudv1.model.UserModel;
 import com.ideaco.diacrudv1.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController //menandakan kalau ini controller
@@ -32,5 +30,25 @@ public class UserController {
     @GetMapping("/users/{userId}")
     public Optional<UserModel> getUserUsingId(@PathVariable("userId") int userId) {
         return userService.getUserById(userId);
+    }
+
+    @PostMapping("/login")
+    public String login(@RequestBody Map<String, String> requestBody) {
+        String username = requestBody.get("username");
+        String password = requestBody.get("password");
+
+        List<UserModel> users = userService.getByUserName(username);
+
+        if (!users.isEmpty()) {
+            UserModel user = users.get(0);  // Assuming you want the first user in the list
+
+            if (user.getPassword().equals(password)) {
+                return "Successfully login";
+            } else {
+                return "Error: Invalid password";
+            }
+        } else {
+            return "Error: User not found";
+        }
     }
 }
