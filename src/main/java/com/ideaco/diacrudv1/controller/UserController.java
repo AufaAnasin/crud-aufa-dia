@@ -2,9 +2,11 @@ package com.ideaco.diacrudv1.controller;
 
 import com.ideaco.diacrudv1.dto.UserNameAndResumeDTO;
 import com.ideaco.diacrudv1.model.UserModel;
+import com.ideaco.diacrudv1.service.FileService;
 import com.ideaco.diacrudv1.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -16,6 +18,8 @@ import java.util.Optional;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private FileService fileService;
 
     @GetMapping("/welcome")
     public String welcomeMessage() {
@@ -95,6 +99,13 @@ public class UserController {
     @GetMapping("/userandresumeDTO")
     public UserNameAndResumeDTO getUserAndResumeDTO(@RequestParam("userId") int userId) {
         return userService.dataUsernameResumeDTO(userId);
+    }
+
+    // upload file (still anyfile)
+    @PostMapping("/uploadfile")
+    public boolean uploadFile(@RequestParam("file") MultipartFile file) {
+        fileService.saveFile(file);
+        return true;
     }
 
 

@@ -85,6 +85,7 @@ public class UserService {
         return userNameAndResumeDTO;
     }
 
+    // DTO Untuk filter get Data hanya username dan resume
     public UserNameAndResumeDTO dataUsernameResumeDTO(int userId) {
         Optional<UserModel> data = userRepository.findByUserId(userId);
         if(data.isEmpty()) {
@@ -92,5 +93,4 @@ public class UserService {
         }
         return convertDTOUsernameAndResume(data.get());
     }
-
 }
