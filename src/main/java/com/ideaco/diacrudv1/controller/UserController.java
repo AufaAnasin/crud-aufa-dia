@@ -1,5 +1,6 @@
 package com.ideaco.diacrudv1.controller;
 
+import com.ideaco.diacrudv1.dto.UserNameAndResumeDTO;
 import com.ideaco.diacrudv1.model.UserModel;
 import com.ideaco.diacrudv1.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,7 @@ public class UserController {
         }
     }
 
+    // bikin user, tapi hanya bisa untuk sekali input
     @PostMapping("/register")
     public String register(@RequestBody UserModel user) {
         if (userService.isUsernameTaken(user.getUserName())) {
@@ -60,4 +62,41 @@ public class UserController {
         userService.saveUser(user);
         return "Succesfull Register";
     }
+
+    // bikin user baru, tapi bisa banyak post
+    @PostMapping("/registerMultiple")
+    public List<UserModel> multipleRegister(@RequestBody List<UserModel> userModel) {
+        return userService.saveMultipleUser(userModel);
+    }
+
+    // delete user
+
+    @DeleteMapping("/deleteUser")
+    public String deleteUser(@RequestParam("userId") int userId) {
+        boolean response = userService.deleteUser(userId);
+        if (response) {
+            return "Delete Success";
+        } else {
+            return "Delete Failed";
+        }
+    }
+
+    // edit user with put method
+    @PutMapping("/edit")
+    public UserModel putUser(@RequestBody UserModel userModel) {
+        return userService.putUserService(userModel);
+    }
+
+    // edit user with path method
+    @PatchMapping("/edit")
+    public UserModel patchUser(@RequestParam("userId") int userId, @RequestParam("userResume") String userResume) {
+        return userService.patchUserService(userId, userResume);
+    }
+    @GetMapping("/userandresumeDTO")
+    public UserNameAndResumeDTO getUserAndResumeDTO(@RequestParam("userId") int userId) {
+        return userService.dataUsernameResumeDTO(userId);
+    }
+
+
+
 }
